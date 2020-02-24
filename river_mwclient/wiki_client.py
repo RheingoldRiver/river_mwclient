@@ -4,7 +4,7 @@ from .wiki_script_error import WikiScriptError
 from .wiki_content_error import WikiContentError
 
 
-class ExtendedSite(mwclient.Site):
+class WikiClient(mwclient.Site):
     """
     Various utilities that extend mwclient and could be useful on any wiki/wiki farm
     Utilities here should not depend on any extensions

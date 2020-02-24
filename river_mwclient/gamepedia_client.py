@@ -1,8 +1,8 @@
-from .extended_site import ExtendedSite
-from .cargo_site import CargoSite
+from .wiki_client import WikiClient
+from .cargo_client import CargoClient
 
 
-class GamepediaSite(object):
+class GamepediaClient(object):
     """
     Functions for connecting to and editing Gamepedia wikis. As with ExtendedSite, the focus of support
     is Gamepedia esports wikis specifically, but no functions here require using an esports wiki to work.
@@ -13,7 +13,7 @@ class GamepediaSite(object):
     client = None
 
     def __init__(self, wiki: str=None, stg=False,
-                 client: ExtendedSite = None,
+                 client: WikiClient = None, cargo_client: CargoClient = None,
                  username=None, password=None, user_file=None,
                  **kwargs):
         if client:
@@ -21,8 +21,10 @@ class GamepediaSite(object):
         else:
             suffix = 'io' if stg else 'com'
             wiki = '%s.gamepedia.' % wiki + suffix
-            self.client = ExtendedSite(wiki, path='/',
-                                       username=username, password=password, user_file=user_file,
-                                       **kwargs)
-
-        self.cargo_client = CargoSite(client=self.client)
+            self.client = WikiClient(wiki, path='/',
+                                     username=username, password=password, user_file=user_file,
+                                     **kwargs)
+        if cargo_client:
+            self.cargo_client = cargo_client
+        else:
+            self.cargo_client = CargoClient(client=self.client)

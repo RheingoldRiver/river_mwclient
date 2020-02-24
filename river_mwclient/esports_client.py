@@ -1,12 +1,13 @@
-from .gamepedia_site import GamepediaSite
-from .cargo_site import CargoSite
+from .gamepedia_client import GamepediaClient
+from .cargo_client import CargoClient
+from .wiki_client import WikiClient
 
 ALL_ESPORTS_WIKIS = ['lol', 'halo', 'smite', 'vg', 'rl', 'pubg', 'fortnite',
                      'apexlegends', 'fifa', 'gears', 'nba2k', 'paladins', 'siege',
                      'default-loadout', 'commons', 'teamfighttactics']
 
 
-class EsportsSite(object):
+class EsportsClient(object):
     """
     Functions for connecting to and editing specifically to Gamepedia esports wikis.
 
@@ -17,11 +18,12 @@ class EsportsSite(object):
     specifically querying esports Cargo tables that won't exist elsewhere
     """
     ALL_ESPORTS_WIKIS = ALL_ESPORTS_WIKIS
-    cargo_client = None
-    client = None
-    gp_client = None
+    cargo_client: CargoClient = None
+    client: WikiClient = None
+    gp_client: GamepediaClient = None
+    wiki: str = None
 
-    def __init__(self, wiki: str=None, gp_client: GamepediaSite = None,
+    def __init__(self, wiki: str=None, gp_client: GamepediaClient = None,
                  username=None, password=None, user_file=None,
                  stg=False,
                  **kwargs):
@@ -29,12 +31,13 @@ class EsportsSite(object):
         Create a site object. Username is optional
         :param wiki: Name of a wiki
         """
+        self.wiki = wiki
         if gp_client:
             self.gp_client = gp_client
         else:
-            self.gp_client = GamepediaSite(self.get_wiki(wiki), stg=stg,
-                                           username=username, password=password, user_file=user_file,
-                                           **kwargs)
+            self.gp_client = GamepediaClient(self.get_wiki(wiki), stg=stg,
+                                             username=username, password=password, user_file=user_file,
+                                             **kwargs)
 
         self.cargo_client = self.gp_client.cargo_client
         self.client = self.gp_client.client
@@ -57,7 +60,7 @@ class EsportsSite(object):
                 fields="Tournaments.StandardName_Redirect=Name,Tournaments._pageName=Target",
                 limit="max"
         ):
-            page = self.pages[item['Name']]
+            page = self.client.pages[item['Name']]
             target = item['Target']
             page.save('#redirect[[%s]]' % target, summary="creating needed CM_StandardName redirects")
 
@@ -72,7 +75,7 @@ class EsportsSite(object):
 
     def other_sites(self):
         for wiki in self.other_wikis():
-            yield EsportsSite(wiki)
+            yield EsportsClient(wiki)
 
     @staticmethod
     def all_wikis():
@@ -86,8 +89,8 @@ class EsportsSite(object):
         :return: Generator of all esports wikis as site objects
         """
         for wiki in ALL_ESPORTS_WIKIS:
-            yield EsportsSite(wiki)
+            yield EsportsClient(wiki)
 
     def all_sites_logged_in(self):
         for wiki in ALL_ESPORTS_WIKIS:
-            yield EsportsSite(wiki, username=self.username, password=self.password)
+            yield EsportsClient(wiki, username=self.username, password=self.password)
