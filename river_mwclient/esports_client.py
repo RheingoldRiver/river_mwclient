@@ -93,4 +93,4 @@ class EsportsClient(object):
 
     def all_sites_logged_in(self):
         for wiki in ALL_ESPORTS_WIKIS:
-            yield EsportsClient(wiki, username=self.username, password=self.password)
+            yield EsportsClient(wiki, username=self.client.username, password=self.client.password)
