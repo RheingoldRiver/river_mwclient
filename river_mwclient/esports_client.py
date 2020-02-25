@@ -23,21 +23,13 @@ class EsportsClient(object):
     gp_client: GamepediaClient = None
     wiki: str = None
 
-    def __init__(self, wiki: str=None, gp_client: GamepediaClient = None,
-                 username=None, password=None, user_file=None,
-                 stg=False,
-                 **kwargs):
+    def __init__(self, wiki: str=None, gp_client: GamepediaClient = None):
         """
         Create a site object. Username is optional
         :param wiki: Name of a wiki
         """
         self.wiki = wiki
-        if gp_client:
-            self.gp_client = gp_client
-        else:
-            self.gp_client = GamepediaClient(self.get_wiki(wiki), stg=stg,
-                                             username=username, password=password, user_file=user_file,
-                                             **kwargs)
+        self.gp_client = gp_client
 
         self.cargo_client = self.gp_client.cargo_client
         self.client = self.gp_client.client

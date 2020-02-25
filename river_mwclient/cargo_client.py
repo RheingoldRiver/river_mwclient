@@ -8,10 +8,7 @@ class CargoClient(object):
     client = None
 
     def __init__(self, client, **kwargs):
-        if not client:
-            self.client = WikiClient(**kwargs)
-        else:
-            self.client = client
+        self.client = client
 
     def query(self, **kwargs):
         response = self.client.api('cargoquery', **kwargs)

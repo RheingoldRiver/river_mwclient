@@ -2,6 +2,7 @@ import mwclient
 import datetime
 from .wiki_script_error import WikiScriptError
 from .wiki_content_error import WikiContentError
+from .auth_credentials import AuthCredentials
 
 
 class WikiClient(mwclient.Site):
@@ -13,38 +14,15 @@ class WikiClient(mwclient.Site):
     """
     errors = []
     wiki = None
-    username = None
-    password = None
 
-    def __init__(self, wiki: str, path='/',
-                 username: str = None, password: str = None, user_file: str = None,
-                 **kwargs):
+    def __init__(self, wiki: str, path='/', credentials: AuthCredentials = None, **kwargs):
         super().__init__(wiki, path=path)
         self.wiki = wiki
-        self.username = username  # set this in login if not provided here
-        self.password = password  # set this in login if not provided here
-        if username and password:
-            self.login(username=username, password=password, **kwargs)
-        elif user_file:
-            self.login_from_file(user_file, **kwargs)
+        self.credentials = credentials
+        self.login(credentials, **kwargs)
 
-    def login(self, username=None, password=None, **kwargs):
-        self.username = username
-        self.password = password
-        super().login(username=username, password=password, **kwargs)
-
-    def login_from_file(self, user, **kwargs):
-        """
-        Log in using the configuration expected by the original log_into_wiki that I wrote
-        :param user: Either "me" (reads from username.txt & password.txt) or "bot" (username2/password2)
-        :param kwargs: Sent directly to super().login
-        :return: none
-        """
-        pwd_file = 'password2.txt' if user == 'bot' else 'password.txt'
-        user_file = 'username2.txt' if user == 'bot' else 'username.txt'
-        password = open(pwd_file).read().strip()
-        username = open(user_file).read().strip()
-        self.login(username=username, password=password, **kwargs)
+    def login(self, credentials: AuthCredentials, **kwargs):
+        super().login(username=credentials.username, password=credentials.password, **kwargs)
 
     def recentchanges_by_interval(self, minutes, offset=0,
                                   prop='title|ids|tags|user|patrolled'

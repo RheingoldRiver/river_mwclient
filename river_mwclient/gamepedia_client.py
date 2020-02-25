@@ -12,19 +12,6 @@ class GamepediaClient(object):
     cargo_client = None
     client = None
 
-    def __init__(self, wiki: str=None, stg=False,
-                 client: WikiClient = None, cargo_client: CargoClient = None,
-                 username=None, password=None, user_file=None,
-                 **kwargs):
-        if client:
-            self.client = client
-        else:
-            suffix = 'io' if stg else 'com'
-            wiki = '%s.gamepedia.' % wiki + suffix
-            self.client = WikiClient(wiki, path='/',
-                                     username=username, password=password, user_file=user_file,
-                                     **kwargs)
-        if cargo_client:
-            self.cargo_client = cargo_client
-        else:
-            self.cargo_client = CargoClient(client=self.client)
+    def __init__(self, client: WikiClient = None, cargo_client: CargoClient = None, **kwargs):
+        self.client = client
+        self.cargo_client = cargo_client
