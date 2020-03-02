@@ -31,20 +31,18 @@ class EsportsClient(object):
         Create a site object. Username is optional
         :param wiki: Name of a wiki
         """
-
+        self.wiki = self.get_wiki(wiki)
         if client:
             # completely skip the session manager
             self.cargo_client = CargoClient(client)
             self.client = client
-            self.wiki = wiki
             return
 
-        self.cargo_client, self.client = session_manager.get_client(wiki,
+        self.client, self.cargo_client = session_manager.get_client(wiki,
                                                                     credentials=credentials,
                                                                     stg=stg,
                                                                     **kwargs
                                                                     )
-        self.wiki = wiki
 
     @staticmethod
     def get_wiki(wiki):

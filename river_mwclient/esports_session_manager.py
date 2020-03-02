@@ -1,7 +1,6 @@
 from .wiki_client import WikiClient
 from .gamepedia_client import GamepediaClient
 from .cargo_client import CargoClient
-from .esports_client import EsportsClient
 from .auth_credentials import AuthCredentials
 
 
@@ -14,9 +13,8 @@ class EsportsSessionManager(object):
                    credentials: AuthCredentials = None, stg: bool = False,
                    **kwargs):
         suffix = 'io' if stg else 'com'
-        wiki = EsportsClient.get_wiki(wiki)
         url = '{}.gamepedia.{}'.format(wiki, suffix)
-        if self.existing_wikis[url]:
+        if url in self.existing_wikis:
             return self.existing_wikis[url]['client'], self.existing_wikis[url]['cargo_client']
         client = WikiClient(url, path='/', credentials=credentials, **kwargs)
         cargo_client = CargoClient(client)

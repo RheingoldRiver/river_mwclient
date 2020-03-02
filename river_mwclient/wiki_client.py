@@ -19,7 +19,8 @@ class WikiClient(mwclient.Site):
         super().__init__(url, path=path)
         self.url = url
         self.credentials = credentials
-        self.login(credentials, **kwargs)
+        if credentials:
+            self.login(credentials, **kwargs)
 
     def login(self, credentials: AuthCredentials, **kwargs):
         super().login(username=credentials.username, password=credentials.password, **kwargs)
