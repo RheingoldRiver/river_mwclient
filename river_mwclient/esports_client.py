@@ -1,15 +1,12 @@
 from .gamepedia_client import GamepediaClient
 from .cargo_client import CargoClient
 from .wiki_client import WikiClient
-from .esports_session_manager import EsportsSessionManager
+from .esports_session_manager import session_manager
 from .auth_credentials import AuthCredentials
 
 ALL_ESPORTS_WIKIS = ['lol', 'halo', 'smite', 'vg', 'rl', 'pubg', 'fortnite',
                      'apexlegends', 'fifa', 'gears', 'nba2k', 'paladins', 'siege',
                      'default-loadout', 'commons', 'teamfighttactics']
-
-
-session_manager = None
 
 
 class EsportsClient(object):
@@ -41,9 +38,6 @@ class EsportsClient(object):
             self.client = client
             self.wiki = wiki
             return
-
-        if not session_manager:
-            session_manager = EsportsSessionManager()
 
         self.cargo_client, self.client = session_manager.get_client(wiki)
         self.wiki = wiki

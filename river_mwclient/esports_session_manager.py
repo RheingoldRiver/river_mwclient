@@ -22,3 +22,6 @@ class EsportsSessionManager(object):
         cargo_client = CargoClient(client)
         self.existing_wikis[url] = {'client': client, 'cargo_client': cargo_client}
         return client, cargo_client
+
+
+session_manager = EsportsSessionManager()
