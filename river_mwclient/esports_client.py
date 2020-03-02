@@ -1,4 +1,3 @@
-from .gamepedia_client import GamepediaClient
 from .cargo_client import CargoClient
 from .wiki_client import WikiClient
 from .esports_session_manager import session_manager
@@ -13,11 +12,7 @@ class EsportsClient(object):
     """
     Functions for connecting to and editing specifically to Gamepedia esports wikis.
 
-    No functions in this class should be useful to non-esports wikis; if they are, they should
-    go in GamepediaSite instead.
-
-    Reasons for inclusion here include enumerating sites using ALL_ESPORTS_WIKIS, or
-    specifically querying esports Cargo tables that won't exist elsewhere
+    If not using an esports wiki, please use GamepediaSite instead.
     """
     ALL_ESPORTS_WIKIS = ALL_ESPORTS_WIKIS
     cargo_client: CargoClient = None
@@ -28,8 +23,11 @@ class EsportsClient(object):
                  credentials: AuthCredentials = None, stg: bool = False,
                  **kwargs):
         """
-        Create a site object. Username is optional
+        Create a site object.
         :param wiki: Name of a wiki
+        :param client: WikiClient object. If this is provided, SessionManager will not be used.
+        :param credentials: Optional. Provide if you want a logged-in session.
+        :param stg: if it's a staging wiki or not
         """
         self.wiki = self.get_wiki(wiki)
         if client:

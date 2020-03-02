@@ -3,8 +3,9 @@ from .cargo_client import CargoClient
 from .auth_credentials import AuthCredentials
 
 
-class EsportsSessionManager(object):
-    """Manages instances of EsportsClient
+class GamepediaSessionManager(object):
+    """Manages instances of Gamepedia client
+    We assume all Gamepedia wikis have Cargo (if one doesn't, this code won't break)
     """
     existing_wikis = {}
 
@@ -17,4 +18,4 @@ class EsportsSessionManager(object):
         return client, cargo_client
 
 
-session_manager = EsportsSessionManager()
+session_manager = GamepediaSessionManager()
