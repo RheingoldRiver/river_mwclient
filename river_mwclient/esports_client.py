@@ -1,10 +1,14 @@
 from .gamepedia_client import GamepediaClient
 from .cargo_client import CargoClient
 from .wiki_client import WikiClient
+from .esports_session_manager import EsportsSessionManager
 
 ALL_ESPORTS_WIKIS = ['lol', 'halo', 'smite', 'vg', 'rl', 'pubg', 'fortnite',
                      'apexlegends', 'fifa', 'gears', 'nba2k', 'paladins', 'siege',
                      'default-loadout', 'commons', 'teamfighttactics']
+
+
+session_manager = None
 
 
 class EsportsClient(object):
@@ -28,6 +32,11 @@ class EsportsClient(object):
         Create a site object. Username is optional
         :param wiki: Name of a wiki
         """
+
+        # it's red-underlining session_manager and idk why
+        # also how do i get credentials? am i supposed to change the constructor's signature?
+        if not session_manager:
+            session_manager = EsportsSessionManager()
         self.wiki = wiki
         self.gp_client = gp_client
 

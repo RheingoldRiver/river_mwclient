@@ -12,6 +12,6 @@ class GamepediaClient(object):
     cargo_client = None
     client = None
 
-    def __init__(self, client: WikiClient = None, cargo_client: CargoClient = None, **kwargs):
+    def __init__(self, client: WikiClient = None, cargo_client: CargoClient = None):
         self.client = client
         self.cargo_client = cargo_client
