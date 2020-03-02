@@ -39,7 +39,11 @@ class EsportsClient(object):
             self.wiki = wiki
             return
 
-        self.cargo_client, self.client = session_manager.get_client(wiki)
+        self.cargo_client, self.client = session_manager.get_client(wiki,
+                                                                    credentials=credentials,
+                                                                    stg=stg,
+                                                                    **kwargs
+                                                                    )
         self.wiki = wiki
 
     @staticmethod
