@@ -9,11 +9,7 @@ class EsportsSessionManager(object):
     """
     existing_wikis = {}
 
-    def get_client(self, wiki: str = None,
-                   credentials: AuthCredentials = None, stg: bool = False,
-                   **kwargs):
-        suffix = 'io' if stg else 'com'
-        url = '{}.gamepedia.{}'.format(wiki, suffix)
+    def get_client(self, url: str = None, credentials: AuthCredentials = None, **kwargs):
         if url in self.existing_wikis:
             return self.existing_wikis[url]['client'], self.existing_wikis[url]['cargo_client']
         client = WikiClient(url, path='/', credentials=credentials, **kwargs)

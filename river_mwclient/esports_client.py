@@ -38,9 +38,11 @@ class EsportsClient(object):
             self.client = client
             return
 
-        self.client, self.cargo_client = session_manager.get_client(wiki,
+        suffix = 'io' if stg else 'com'
+        url = '{}.gamepedia.{}'.format(wiki, suffix)
+
+        self.client, self.cargo_client = session_manager.get_client(url=url,
                                                                     credentials=credentials,
-                                                                    stg=stg,
                                                                     **kwargs
                                                                     )
 
