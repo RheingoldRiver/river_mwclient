@@ -13,11 +13,11 @@ class WikiClient(mwclient.Site):
     but anything that's platform or extension-specific will go in GamepediaSite instead
     """
     errors = []
-    wiki = None
+    url = None
 
-    def __init__(self, wiki: str, path='/', credentials: AuthCredentials = None, **kwargs):
-        super().__init__(wiki, path=path)
-        self.wiki = wiki
+    def __init__(self, url: str, path='/', credentials: AuthCredentials = None, **kwargs):
+        super().__init__(url, path=path)
+        self.url = url
         self.credentials = credentials
         self.login(credentials, **kwargs)
 
