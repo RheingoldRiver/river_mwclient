@@ -35,14 +35,15 @@ class EsportsClient(object):
         :param wiki: Name of a wiki
         """
 
-        if not session_manager:
-            session_manager = EsportsSessionManager()
-
         if client:
+            # completely skip the session manager
             self.cargo_client = CargoClient(client)
             self.client = client
+            self.wiki = wiki
             return
 
+        if not session_manager:
+            session_manager = EsportsSessionManager()
 
         self.cargo_client, self.client = session_manager.get_client(wiki)
         self.wiki = wiki
