@@ -38,7 +38,7 @@ If you don't want to log in, you can just create an EsportsSite/GamepediaSite ob
 # Editing
 For people wanting to edit wikis, `PageModifier` and `TemplateModifier` are the two things most likely to make your life easier. To use them you subclass and then overwrite methods to modify the page or template as needed, then instantiate the subclass and run. 
 
-For `PageModifier`, you probably want *either* `updage_plaintext` *or* `update_wikitext`, not both.
+For `PageModifier`, you probably want *either* `update_plaintext` *or* `update_wikitext`, not both.
 ## Copyable code 
 ```python
 from river_mwclient.esports_client import EsportsClient
